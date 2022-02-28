@@ -1,0 +1,54 @@
+#https://www.youtube.com/watch?v=Kt5leCS8e8M
+extends Node
+
+#i am unsure if this save path is going to work. 
+const SAVE_FILE_PATH := "F:/Godot/SAVE TESTS"
+
+onready var save_button: Button = $HBoxContainer/SaveButton
+onready var load_button: Button = $HBoxContainer/LoadButton
+onready var reset_button: Button = $HBoxContainer/ResetButton
+
+
+func _ready() -> void:
+	save_button.connect("pressed", self, "save")
+	load_button.connect("pressed", self, "load_save")
+	reset_button.connect("pressed", self, "reset")
+
+#collects the data from each unit.
+func save() -> void:
+	var save_data := {}
+	
+	var units := get_tree().get_nodes_in_group("units")
+	for unit in units:
+		save_data[get_path_to(unit)] = {
+			"current_cell": unit.current_cell,
+			"rotation": unit.rotation
+		}
+
+#converts data to text
+	var data_as_string := var2str(save_data)
+#saves to a file
+	var file := File.new()
+	file.open(SAVE_FILE_PATH, File.WRITE)
+	file.store_string(data_as_string)
+	file.close()
+
+#loads the save file and converts the text back to usable data.
+func load_save() -> void:
+	var file := File.new()
+	file.open(SAVE_FILE_PATH, File.READ)
+	var data: Dictionary = str2var(file.get_as_text())
+	file.close()
+	
+	#current setup is to save and load the unit positions
+	var units := get_tree().get_nodes_in_group("units")
+	for unit in units:
+		var path := get_path_to(unit)
+		if data.has(path):
+			unit.current_cell = data[path].current_cell
+			unit.rotation = data[path].rotation
+		
+
+
+func reset() -> void:
+	get_tree().reload_current_scene()
