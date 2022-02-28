@@ -1,0 +1,28 @@
+extends Sprite
+
+const Bullet := preload("res://practice test.tscn")
+
+export var fire_rate := 2000.0
+export var pool_size := 3000
+
+var _bullet_pool := []
+var _index := 0
+
+func _ready() -> void:
+	for i in pool_size:
+		var bullet = Bullet.instance()
+		_bullet_pool.append(bullet)
+
+
+func _process(delta: float) -> void:
+	look_at(get_global_mouse_position())
+	rotate(PI/2)
+	var direction := Vector2.UP.rotated(rotation)
+	
+	if Input.is_action_pressed("ui_leftclick"):
+		var bullets_to_spawn := round(fire_rate * delta)
+		for i in bullets_to_spawn:
+			var bullet = _bullet_pool[_index]
+			_index = wrapi(_index + 1, 0, pool_size -1)
+			add_child(bullet)
+			bullet.fire(global_position, direction.rotated(rand_range(-PI/4,PI/4)))
