@@ -1,1 +1,35 @@
+extends KinematicBody2D
+
+#This helps sets the gravity. The UP is saying where the force is coming from.
+const UP = Vector2(0, -1)
+#A bunch of VAR's to hold the values, so i dont have to hard code numbers.
+var motion = Vector2()
+export var speed = 200
+export var gravity = 20
+export var jump_force = -400
+
+#this is the movement code with the values already set via VAR's. And has input.
+func _physics_process(delta):
+	motion.y += gravity
+	if Input.is_action_pressed("ui_right"):
+		motion.x = speed
+	elif Input.is_action_pressed("ui_left"):
+			motion.x = -speed
+	#elif Input.is_action_pressed("ui_down"):
+		#motion.y = 100
+	#elif Input.is_action_pressed("ui_up"):
+		#motion.y = -100
+	
+	else:
+		motion.x = 0
+		#motion.y = 0
+	
+	
+	if is_on_floor():
+		if Input.is_action_just_pressed("ui_up"):
+			motion.y = jump_force
+	
+	motion = move_and_slide(motion, UP)
+
+
 
