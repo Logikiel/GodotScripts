@@ -1,0 +1,14 @@
+extends Area2D
+
+signal selected
+signal unselected
+
+var selected = false
+
+func _on_input_event(viewport, event, shape_idx):
+  if event.is_action_pressed("click"):
+    selected = not selected
+    if selected:
+      emit_signal("selected")
+    else:
+      emit_signal("unselected")
