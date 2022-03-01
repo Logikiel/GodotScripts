@@ -1,0 +1,24 @@
+class_name CustomIterator
+extends ReferenceRect
+
+var length := 10
+var _index := 0
+
+
+func _iter_init(_arg) -> bool:
+	_index = 0
+	return _iter_is_running()
+
+
+func _iter_next(_arg) -> bool:
+	_index += 1
+	return _iter_is_running()
+
+
+func _iter_get(_arg) -> int:
+	return _index
+
+
+func _iter_is_running() -> bool:
+	return _index < length
+
