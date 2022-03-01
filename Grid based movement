@@ -1,0 +1,14 @@
+extends Node2D
+
+export var cell_size := Vector2(80, 80)
+
+var _units := {}
+
+func _ready() -> void:
+	for child in get_children():
+		if child is Unit:
+			var cell: Vector2 = (child.position / cell_size).floor()
+			_units[cell] = child
+
+	print(JSON.print(_units, "\t"))
+#this needs a character, or object or something called "unit"
