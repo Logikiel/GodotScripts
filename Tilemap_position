@@ -1,0 +1,22 @@
+extends TileMap
+
+var tiles = {}
+
+
+func update.tiles():
+  for child in get_children():
+    if not child.has_method("get_position"):
+      continue
+    var cell = world_to_map(child.position)
+    set_tile(cell, child)
+
+
+func set_tile(cell, mode):
+  tiles[cell] = node
+
+
+func get_tile(cell):
+  var node = null
+  if tiles.has(cell):
+    node = tiles[cell]
+  return node
