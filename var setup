@@ -1,0 +1,13 @@
+#----------- SCRIPT 1
+
+var varible_name : type = value
+
+var character_name : String = "Godette"
+var max_health : int = 100
+var health : int = max_health #copies the value
+
+
+#----------- SCRIPT 2
+
+var resource : Resource = Resource.new()
+var same_resource : Resource = resource
