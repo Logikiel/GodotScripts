@@ -3,7 +3,7 @@ extends KinematicBody2D
 var gravity = 300
 var velocity = Vector2.ZERO
 var maxHorizontalSpeed = 100
-var horizontalAcceleration = 1500
+var horizontalAcceleration = 2000
 var jumpSpeed = 200
 
 func _ready():
@@ -19,8 +19,8 @@ func _process(delta):
 	velocity.x += moveVector.x * horizontalAcceleration * delta
 	if (moveVector.x == 0):
 		#using lerp and making it frame rate independant
-		velocity.x = lerp(velocity.x, 0, .1)
-		velocity.x = lerp(0, velocity.x, pow(2, -1 * delta))
+		#velocity.x = lerp(velocity.x, 0, .1)
+		velocity.x = lerp(0, velocity.x, pow(2, -40 * delta))
 	
 	velocity.x = clamp(velocity.x, -maxHorizontalSpeed, maxHorizontalSpeed)
 	#unlimited jump
